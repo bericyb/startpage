@@ -4,7 +4,7 @@ html {
     margin: 0;
     /* align-items: center; */
     justify-content: center;
-    background-image: url('/home/beric/Python Projects/Project 1/claudio-schwarz-purzlbaum-P7rgPubfyCA-unsplash.jpg');
+    background-image: url('claudio-schwarz-purzlbaum-P7rgPubfyCA-unsplash.jpg');
     background-size: cover;
     color: darkgrey;
     font-family: 'Roboto', monospace;
