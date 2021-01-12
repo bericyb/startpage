@@ -1,3 +1,3 @@
-# startpage
+# startpages. 
 
-This is my custom startpage for my browser that I use for school and other well used links. 
+Startpage that includes a quote about time with a basic task manager
