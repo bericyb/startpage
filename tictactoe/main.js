@@ -321,7 +321,9 @@ function loop() {
         if (finalCheck("O", board))
         {
             document.getElementById("turn").innerHTML = "Player Wins!";
-            break;
+            try {
+                throw new Error ("STOP!");
+            }
         }
     }
     else if (turn == 2) {
@@ -330,7 +332,9 @@ function loop() {
         if (finalCheck("X", board))
         {
             document.getElementById("turn").innerHTML = "AI Wins!";
-            break;
+            try {
+                throw new Error ("STOP!");
+            }
         }
         // gameOver("X", board)
         // if () {
