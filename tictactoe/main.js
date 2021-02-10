@@ -47,7 +47,7 @@ function rect(x, y, width, height) {
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
     this.hoverWin = function () {
-        ctx.fillStyle = "red";
+        ctx.fillStyle = (255, 0, 0, 0.5);
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }
