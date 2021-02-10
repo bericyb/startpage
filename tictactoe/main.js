@@ -318,6 +318,7 @@ function loop() {
         console.log("Players");
         document.getElementById("turn").innerHTML = "Player's turn";
         canvas.addEventListener("click", marker, false);
+        render();
         if (finalCheck("O", board))
         {
             document.getElementById("turn").innerHTML = "Player Wins!";
@@ -331,6 +332,7 @@ function loop() {
     else if (turn == 2) {
         document.getElementById("turn").innerHTML = "NPC's turn";
         NPC();
+        render();
         if (finalCheck("X", board))
         {
             document.getElementById("turn").innerHTML = "AI Wins!";
