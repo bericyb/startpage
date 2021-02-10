@@ -193,19 +193,19 @@ function render() {
  
         document.getElementById("turn").innerHTML = "Player Wins!";
         turn = 3;
-        try {
-            throw new Error("STOP!");
-        }
-        finally { }
+        // try {
+        //     throw new Error("STOP!");
+        // }
+        // finally { }
     }
     else if (finalCheck("X", board)) {
         
         document.getElementById("turn").innerHTML = "AI Wins!";
         turn = 3;
-        try {
-            throw new Error("STOP!");
-        }
-        finally { }
+        // try {
+        //     throw new Error("STOP!");
+        // }
+        // finally { }
     }
     var gx = Math.ceil(500 / (col));
     var gy = Math.ceil(500 / (row));
