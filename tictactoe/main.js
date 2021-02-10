@@ -47,7 +47,7 @@ function rect(x, y, width, height) {
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
     this.hoverWin = function () {
-        ctx.fillStyle = (255, 0, 0, 0.5);
+        ctx.fillStyle = "orange";
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }
@@ -318,9 +318,9 @@ function loop() {
         console.log("Players");
         document.getElementById("turn").innerHTML = "Player's turn";
         canvas.addEventListener("click", marker, false);
-        render();
         if (finalCheck("O", board))
         {
+            render();
             document.getElementById("turn").innerHTML = "Player Wins!";
             turn = 3;
             try {
@@ -332,9 +332,9 @@ function loop() {
     else if (turn == 2) {
         document.getElementById("turn").innerHTML = "NPC's turn";
         NPC();
-        render();
         if (finalCheck("X", board))
         {
+            render();
             document.getElementById("turn").innerHTML = "AI Wins!";
             turn = 3;
             try {
