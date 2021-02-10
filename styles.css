@@ -5,6 +5,8 @@ html {
     /* align-items: center; */
     justify-content: center;
     background-image: url('optimized.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     background-size: cover;
     color: darkgrey;
     font-family: 'Roboto', monospace;
