@@ -190,7 +190,7 @@ function render() {
         }
     }
     if (finalCheck("O", board)) {
-        render();
+ 
         document.getElementById("turn").innerHTML = "Player Wins!";
         turn = 3;
         try {
@@ -199,7 +199,7 @@ function render() {
         finally { }
     }
     else if (finalCheck("X", board)) {
-        render();
+        
         document.getElementById("turn").innerHTML = "AI Wins!";
         turn = 3;
         try {
