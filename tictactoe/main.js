@@ -321,6 +321,7 @@ function loop() {
         if (finalCheck("O", board))
         {
             document.getElementById("turn").innerHTML = "Player Wins!";
+            turn = 3;
             try {
                 throw new Error ("STOP!");
             }
@@ -333,6 +334,7 @@ function loop() {
         if (finalCheck("X", board))
         {
             document.getElementById("turn").innerHTML = "AI Wins!";
+            turn = 3;
             try {
                 throw new Error ("STOP!");
             }
