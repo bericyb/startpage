@@ -324,6 +324,7 @@ function loop() {
             try {
                 throw new Error ("STOP!");
             }
+            finally {}
         }
     }
     else if (turn == 2) {
@@ -335,6 +336,7 @@ function loop() {
             try {
                 throw new Error ("STOP!");
             }
+            finally {}
         }
         // gameOver("X", board)
         // if () {
