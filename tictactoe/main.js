@@ -46,6 +46,42 @@ function rect(x, y, width, height) {
         ctx.fillStyle = "orange";
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
+    this.hoverWin = function () {
+        ctx.fillStyle = "red";
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+}
+
+function finalCheck(mark, checkedBoard) {
+    for (var i = 0; i < row; i++) {
+        for (var j = 0; j < col; j++) {
+            if (j < col - 2 && checkedBoard[i][j] == mark && checkedBoard[i][j + 1] == mark && checkedBoard[i][j + 2] == mark) {
+                rects[i][j].hoverWin();
+                rects[i][j+1].hoverWin();
+                rects[i][j+2].hoverWin();
+                return true;
+            } else if (i < row - 2 && checkedBoard[i][j] == mark && checkedBoard[i + 1][j] == mark && checkedBoard[i + 2][j] == mark) {
+                rects[i][j].hoverWin();
+                rects[i+1][j].hoverWin();
+                rects[i+2][j].hoverWin();
+                return true;
+            } else if (i < row - 2 && j < col - 2 && checkedBoard[i][j] == mark && checkedBoard[i + 1][j + 1] == mark && checkedBoard[i + 2][j + 2] == mark) {
+                // if (mark == "O") {
+                //     console.log("WTF");
+                // }
+                rects[i][j].hoverWin();
+                rects[i+1][j+1].hoverWin();
+                rects[i+2][j+2].hoverWin();
+                return true;
+            } else if (i >= 2 && j <= col - 2 && checkedBoard[i][j] == mark && checkedBoard[i - 1][j + 1] == mark && checkedBoard[i - 2][j + 2] == mark) {
+                rects[i][j].hoverWin();
+                rects[i-1][j+1].hoverWin();
+                rects[i-2][j+2].hoverWin();
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 function winCheck(mark, checkedBoard) {
@@ -282,10 +318,20 @@ function loop() {
         console.log("Players");
         document.getElementById("turn").innerHTML = "Player's turn";
         canvas.addEventListener("click", marker, false);
+        if (finalCheck("O", board))
+        {
+            document.getElementById("turn").innerHTML = "Player Wins!";
+            break;
+        }
     }
     else if (turn == 2) {
         document.getElementById("turn").innerHTML = "NPC's turn";
         NPC();
+        if (finalCheck("X", board))
+        {
+            document.getElementById("turn").innerHTML = "AI Wins!";
+            break;
+        }
         // gameOver("X", board)
         // if () {
 
