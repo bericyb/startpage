@@ -4,10 +4,10 @@ html {
     margin: 0;
     /* align-items: center; */
     justify-content: center;
-    background-image: url('optimized.jpg');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-image: url('tile.png');
     background-size: cover;
+    background-repeat: repeat;
+    background-attachment: fixed;
     color: darkgrey;
     font-family: 'Roboto', monospace;
     font-size: 16px;
@@ -15,6 +15,7 @@ html {
 }
 
 body {
+
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -44,7 +45,7 @@ h2 {
     /* align-items: center; */
     background-color: rgba(0, 0,  0, 0.5);
     border-radius: 8px;
-    backdrop-filter: blur(3px);
+    /* backdrop-filter: blur(3px); */
     display: grid;
     align-items: baseline;
     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -125,7 +126,6 @@ a {
 
 a:hover {
     color: black;
-    font-size: 1.2em;
     font-weight: 300;
     background-color: floralwhite;
     border-radius: 5px;
