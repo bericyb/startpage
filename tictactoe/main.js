@@ -90,7 +90,7 @@ function gameOver(mark, checkedBoard) {
 
 
 function render() {
-    // sconsole.log("RENDER!:");
+    // s("RENDER!:");
     canvas = document.getElementById('area');
     ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, 600, 600);
@@ -99,7 +99,7 @@ function render() {
 
     // MousePos stuff...
     if (mousePos != null) {
-        // console.log("WHATUPPIMPS!");
+        // ("WHATUPPIMPS!");
         for (var i = 0; i < row; i++) {
             for (var j = 0; j < col; j++) {
                 if (mousePos.x > rects[i][j].x && mousePos.x < rects[i][j].x + rects[i][j].width && mousePos.y > rects[i][j].y && mousePos.y < rects[i][j].y + rects[i][j].height) {
@@ -181,7 +181,7 @@ function render() {
 }
 
 function getMousePos(canvas, evt) {
-    // console.log(evt);
+    // (evt);
     var square = canvas.getBoundingClientRect();
     return {
         x: evt.clientX - square.left,
@@ -194,7 +194,7 @@ function clicker(event) {
         for (var j = 0; j < col; j++) {
             if (mousePos.x > rects[i][j].x && mousePos.x < rects[i][j].x + rects[i][j].width && mousePos.y > rects[i][j].y && mousePos.y < rects[i][j].y + rects[i][j].height) {
                 if (board[i][j] == " " && checker) {
-                    console.log("how does this work???");
+                    ("how does this work???");
                     board[i][j] = "O";
                     checker = false;
                     clearBoard();
@@ -202,7 +202,7 @@ function clicker(event) {
                     grid();
                     // return;
                 } if (board[i][j] == "X" && checker) {
-                    console.log("how does this work???");
+                    ("how does this work???");
                     board[i][j] = "\u25A0";
                     Playercrossies -= 1;
                     checker = false;
@@ -219,7 +219,7 @@ function clicker(event) {
         if (checker) {
             addRight(board);
         }
-        console.log("Expanding!");
+        ("Expanding!");
         checker = false;
         clearBoard();
         printBoard();
@@ -308,19 +308,19 @@ function loop() {
 }
 
 function marker() {
-    console.log("Checking a click!");
+    ("Checking a click!");
     for (var i = 0; i < row; i++) {
         for (var j = 0; j < col; j++) {
             if (mousePos.x > rects[i][j].x && mousePos.x < rects[i][j].x + rects[i][j].width && mousePos.y > rects[i][j].y && mousePos.y < rects[i][j].y + rects[i][j].height) {
                 if (board[i][j] == " " && checker) {
-                    console.log("how does this work???");
+                    ("how does this work???");
                     board[i][j] = "O";
                     render();
                     canvas.removeEventListener("click", marker, false);
                     turn = 2;
                     // return;
                 } if (board[i][j] == "X" && Playercrossies > 0) {
-                    console.log("how does this work???");
+                    ("how does this work???");
                     board[i][j] = "\u25A0";
                     render();
                     Playercrossies -= 1;
@@ -332,7 +332,7 @@ function marker() {
         }
     }
     if (mousePos.x < 600 && mousePos.x > 560 && mousePos.y > 0 && mousePos.y < 600) {
-        console.log("Expanding!");
+        ("Expanding!");
         if (checker) {
             addRight(board);
             Playercrossies += 1;
@@ -375,11 +375,11 @@ function marker() {
 
 
 function NPC() {
-    console.log("# of NPCcrossies", NPCcrossies);
-    console.log("In NPC");
+    ("# of NPCcrossies", NPCcrossies);
+    ("In NPC");
     nextMove = bestMove(board);
-    console.log(nextMove);
-    console.log(saver);
+    (nextMove);
+    (saver);
     if (nextMove.length == 3) {
         saver = nextMove[3];
     }
@@ -417,7 +417,7 @@ function NPC() {
 
 function bestMove(passBoard) {
     // Creating moves.
-    console.log("In bestMove!");
+    ("In bestMove!");
     var counter = 0;
     var bestScore = -Infinity;
     var move = [];
@@ -429,13 +429,13 @@ function bestMove(passBoard) {
         }
     }
     if (counter >= row * col - 4) {
-        console.log("Checking expansions!");
+        ("Checking expansions!");
         move = ExTest(passBoard, 0, alpha, beta, false);
         if (move[2] > bestScore) {
             bestScore = move[2];
         }
     }
-    console.log("Best score from ExTester", bestScore);
+    ("Best score from ExTester", bestScore);
 
     var alpha = -Infinity;
     var beta = Infinity;
@@ -448,8 +448,8 @@ function bestMove(passBoard) {
                 passBoard[z][c] = "X";
                 let score = tester(passBoard, 0, alpha, beta, false);
                 passBoard[z][c] = " ";
-                console.log(z, c);
-                console.log(score);
+                (z, c);
+                (score);
                 if (score > bestScore) {
                     bestScore = score;
                     move = [z, c];
@@ -461,8 +461,8 @@ function bestMove(passBoard) {
                 let score = tester(passBoard, 0, alpha, beta, false);
                 NPCcrossies += 1;
                 passBoard[z][c] = "O";
-                console.log(z, c);
-                console.log(score);
+                (z, c);
+                (score);
                 if (score > bestScore) {
                     bestScore = score;
                     move = [z, c];
@@ -470,9 +470,9 @@ function bestMove(passBoard) {
             }
         }
     }
-    console.log("here is the counter!");
-    console.log(counter);
-    console.log(row, col);
+    ("here is the counter!");
+    (counter);
+    (row, col);
 
     return move
 }
@@ -481,19 +481,19 @@ function bestMove(passBoard) {
 
 
 function ExTest(boardo, depth, alpha, beta, bool1) {
-    console.log("In ExTest!");
+    ("In ExTest!");
     move = [];
     var bestScore = -Infinity;
     addTop(boardo);
-    console.log("New Test!");
+    ("New Test!");
     for (var z = 0; z < boardo.length; z++) {
         for (var c = 1; c < boardo[z].length; c++) {
             if (boardo[z][c] == "O" && NPCcrossies > 0) {
-                console.log(z, c);
+                (z, c);
                 boardo[z][c] = "\u25A0";
-                // console.log("This is the input for it", board[2][1]);
+                // ("This is the input for it", board[2][1]);
                 var eval = altTester(boardo, depth, alpha, beta, bool1);
-                console.log(eval);
+                (eval);
                 boardo[z][c] = "O";
                 if (eval > bestScore) {
                     bestScore = eval;
@@ -504,15 +504,15 @@ function ExTest(boardo, depth, alpha, beta, bool1) {
     }
     shrinkTop(boardo);
     addBottom(boardo);
-    console.log("NewTest!");
-    console.log("Old bestScore is...", bestScore);
+    ("NewTest!");
+    ("Old bestScore is...", bestScore);
     for (var z = 0; z < boardo.length; z++) {
         for (var c = 0; c < boardo[z].length - 1; c++) {
             if (boardo[z][c] == "O" && NPCcrossies > 0) {
                 boardo[z][c] = "\u25A0";
                 var eval = altTester(boardo, depth, alpha, beta, bool1);
-                console.log(eval);
-                console.log(z, c);
+                (eval);
+                (z, c);
                 boardo[z][c] = "O";
                 if (eval > bestScore) {
                     bestScore = eval;
@@ -523,15 +523,15 @@ function ExTest(boardo, depth, alpha, beta, bool1) {
     }
     shrinkBottom(boardo);
     addLeft(boardo);
-    console.log("NewTest!");
-    console.log("Old bestScore is...", bestScore);
+    ("NewTest!");
+    ("Old bestScore is...", bestScore);
     for (var z = 1; z < boardo.length; z++) {
         for (var c = 0; c < boardo[z].length; c++) {
             if (boardo[z][c] == "O" && NPCcrossies > 0) {
                 boardo[z][c] = "\u25A0";
                 var eval = altTester(boardo, depth, alpha, beta, bool1);
-                console.log(eval);
-                console.log(z, c);
+                (eval);
+                (z, c);
                 boardo[z][c] = "O";
                 if (eval > bestScore) {
                     bestScore = eval;
@@ -542,15 +542,15 @@ function ExTest(boardo, depth, alpha, beta, bool1) {
     }
     shrinkLeft(boardo);
     addRight(boardo);
-    console.log("NewTest!");
-    console.log("Old bestScore is...", bestScore);
+    ("NewTest!");
+    ("Old bestScore is...", bestScore);
     for (var z = 0; z < boardo.length; z++) {
         for (var c = 0; c < boardo[z].length; c++) {
             if (boardo[z][c] == "O" && NPCcrossies > 0) {
                 boardo[z][c] = "\u25A0";
                 var eval = altTester(boardo, depth, alpha, beta, bool1);
-                console.log(eval);
-                console.log(z, c);
+                (eval);
+                (z, c);
                 boardo[z][c] = "O";
                 if (eval > bestScore) {
                     bestScore = eval;
@@ -560,7 +560,7 @@ function ExTest(boardo, depth, alpha, beta, bool1) {
         }
     }
     shrinkRight(boardo);
-    console.log("Final bestScore in ExTest", bestScore);
+    ("Final bestScore in ExTest", bestScore);
 
     // maxEval = -Infinity;
     addTop(boardo);
@@ -572,7 +572,7 @@ function ExTest(boardo, depth, alpha, beta, bool1) {
         bestScore = score;
         move = [-1, 0, bestScore];
     }
-    console.log("New score? Top", bestScore);
+    ("New score? Top", bestScore);
     addBottom(boardo);
     NPCcrossies += 1;
     var score = altTester(boardo, (depth + 1), alpha, beta, false) - depth - Playercrossies + NPCcrossies;
@@ -582,7 +582,7 @@ function ExTest(boardo, depth, alpha, beta, bool1) {
         bestScore = score;
         move = [-2, 0, bestScore];
     }
-    console.log("New score? Bottom", bestScore);
+    ("New score? Bottom", bestScore);
     addLeft(boardo);
     NPCcrossies += 1;
     var score = altTester(boardo, (depth + 1), alpha, beta, false) - depth - Playercrossies + NPCcrossies;
@@ -592,7 +592,7 @@ function ExTest(boardo, depth, alpha, beta, bool1) {
         bestScore = score;
         move = [-3, 0, bestScore];
     }
-    console.log("New score? Left", bestScore);
+    ("New score? Left", bestScore);
     addRight(boardo);
     NPCcrossies += 1;
     var score = altTester(boardo, (depth + 1), alpha, beta, false) - depth - Playercrossies + NPCcrossies;
@@ -602,7 +602,7 @@ function ExTest(boardo, depth, alpha, beta, bool1) {
         bestScore = score;
         move = [-4, 0, bestScore];
     }
-    console.log("New score? Right", bestScore);
+    ("New score? Right", bestScore);
     return move;
 }
 
@@ -622,8 +622,8 @@ function Expander(boardo, depth, alpha, beta, isMax) {
                 if (boardo[z][c] == "O") {
                     boardo[z][c] = "\u25A0";
                     var eval = altTester(boardo, (depth + 1), alpha, beta, false);
-                    // console.log(eval);
-                    // console.log(z, c);
+                    // (eval);
+                    // (z, c);
                     boardo[z][c] = "O";
                     if (eval > bestScore) {
                         bestScore = eval;
@@ -638,8 +638,8 @@ function Expander(boardo, depth, alpha, beta, isMax) {
                 if (boardo[z][c] == "O") {
                     boardo[z][c] = "\u25A0";
                     var eval = altTester(boardo, (depth + 1), alpha, beta, false);
-                    // console.log(eval);
-                    // console.log(z, c);
+                    // (eval);
+                    // (z, c);
                     boardo[z][c] = "O";
                     if (eval > bestScore) {
                         bestScore = eval;
@@ -654,8 +654,8 @@ function Expander(boardo, depth, alpha, beta, isMax) {
                 if (boardo[z][c] == "O") {
                     boardo[z][c] = "\u25A0";
                     var eval = altTester(boardo, (depth + 1), alpha, beta, false);
-                    // console.log(eval);
-                    // console.log(z, c);
+                    // (eval);
+                    // (z, c);
                     boardo[z][c] = "O";
                     if (eval > bestScore) {
                         bestScore = eval;
@@ -670,8 +670,8 @@ function Expander(boardo, depth, alpha, beta, isMax) {
                 if (boardo[z][c] == "O") {
                     boardo[z][c] = "\u25A0";
                     var eval = altTester(boardo, (depth + 1), alpha, beta, false);
-                    // console.log(eval);
-                    // console.log(z, c);
+                    // (eval);
+                    // (z, c);
                     boardo[z][c] = "O";
                     if (eval > bestScore) {
                         bestScore = eval;
@@ -683,7 +683,7 @@ function Expander(boardo, depth, alpha, beta, isMax) {
         return bestScore;
     }
     else if (!isMax && Playercrossies > 0) {
-        // console.log("inExpander");
+        // ("inExpander");
         var bestScore = Infinity;
         addTop(boardo);
         for (var z = 0; z < boardo.length; z++) {
@@ -691,8 +691,8 @@ function Expander(boardo, depth, alpha, beta, isMax) {
                 if (boardo[z][c] == "O") {
                     boardo[z][c] = "\u25A0";
                     var eval = altTester(boardo, (depth + 1), alpha, beta, true);
-                    // console.log(eval);
-                    // console.log(z, c);
+                    // (eval);
+                    // (z, c);
                     boardo[z][c] = "O";
                     if (eval < bestScore) {
                         bestScore = eval;
@@ -707,8 +707,8 @@ function Expander(boardo, depth, alpha, beta, isMax) {
                 if (boardo[z][c] == "O") {
                     boardo[z][c] = "\u25A0";
                     var eval = altTester(boardo, (depth + 1), alpha, beta, true);
-                    // console.log(eval);
-                    // console.log(z, c);
+                    // (eval);
+                    // (z, c);
                     boardo[z][c] = "O";
                     if (eval < bestScore) {
                         bestScore = eval;
@@ -723,8 +723,8 @@ function Expander(boardo, depth, alpha, beta, isMax) {
                 if (boardo[z][c] == "O") {
                     boardo[z][c] = "\u25A0";
                     var eval = altTester(boardo, (depth + 1), alpha, beta, true);
-                    // console.log(eval);
-                    // console.log(z, c);
+                    // (eval);
+                    // (z, c);
                     boardo[z][c] = "O";
                     if (eval < bestScore) {
                         bestScore = eval;
@@ -739,8 +739,8 @@ function Expander(boardo, depth, alpha, beta, isMax) {
                 if (boardo[z][c] == "O") {
                     boardo[z][c] = "\u25A0";
                     var eval = altTester(boardo, depth + 1, alpha, beta, true);
-                    // console.log(eval);
-                    // console.log(z, c);
+                    // (eval);
+                    // (z, c);
                     boardo[z][c] = "O";
                     if (eval < bestScore) {
                         bestScore = eval;
@@ -863,7 +863,7 @@ function tester(boardo, depth, alpha, beta, isMax) {
     if (counter == row * col) {
         // Board is full. Consider Expansion
         maxEval = Expander(boardo, (depth + 1), alpha, beta, isMax);
-        // console.log(maxEval);
+        // (maxEval);
         return maxEval;
     }
     else if (isMax) {
@@ -966,26 +966,26 @@ function altTester(boardo, depth, alpha, beta, isMax) {
     }
     else if (!isMax) {
         var minEval = Infinity;
-        // console.log(boardo, "Whaat?");
+        // (boardo, "Whaat?");
         for (var i = 0; i < boardo.length; i++) {
             for (var j = 0; j < boardo[i].length; j++) {
-                // console.log(i,j);
+                // (i,j);
                 if (boardo[i][j] == " ") {
                     boardo[i][j] = "O";
-                    //console.log(boardo[2][1]);
+                    //(boardo[2][1]);
                     // if (winCheck("O", boardo)) {
                     //     score = -1000;
                     //     if (boardo[2][1] == "\u25A0") {
-                    //         console.log("IWANTTODIE");
+                    //         ("IWANTTODIE");
                     //         // print();
                     //     }
                     // }
                     // else {
-                    //     console.log("WHATTHEFUCK");
+                    //     ("WHATTHEFUCK");
                     //     score = 0;
                     // }
                     var score = altTester(boardo, (depth + 1), alpha, beta, true) + depth - Playercrossies + NPCcrossies;
-                    // console.log(score);
+                    // (score);
                     boardo[i][j] = " ";
                     minEval = Math.min(minEval, score);
                 }
@@ -998,8 +998,8 @@ function altTester(boardo, depth, alpha, beta, isMax) {
 // Board Expansion functions
 function addTop(altBoard) {
     col = col + 1;
-    // console.log("In addTop");
-    // console.log(altBoard);
+    // ("In addTop");
+    // (altBoard);
     for (var i = 0; i < row; i++) {
         altBoard[i].unshift(" ");
         rects[i].unshift(new rect(2, 2, 2, 2));
@@ -1017,8 +1017,8 @@ function shrinkTop(altBoard) {
 
 function addBottom(altBoard) {
     col = col + 1;
-    // console.log("In bottom");
-    // console.log(altBoard);
+    // ("In bottom");
+    // (altBoard);
     for (var i = 0; i < row; i++) {
         altBoard[i].push(" ");
         rects[i].push(new rect(2, 2, 2, 2));
@@ -1035,7 +1035,7 @@ function shrinkBottom(altBoard) {
 }
 
 function addRight(altBoard) {
-    // console.log("In right");
+    // ("In right");
     row = row + 1;
     altBoard.push(new Array(col));
     rects.push(new Array(col));
@@ -1056,7 +1056,7 @@ function shrinkRight(altBoard) {
 
 function addLeft(altBoard) {
     row = row + 1;
-    // console.log("In left");
+    // ("In left");
     altBoard.unshift(new Array(col));
     rects.unshift(new Array(col));
     for (var i = 0; i < col; i++) {
