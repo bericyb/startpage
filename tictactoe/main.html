@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>TIC-TAC-TOX</title>
+<title>TIC-TAC-BLOCK</title>
 <style>
 html {
     display: flex;
@@ -28,14 +28,14 @@ h1 {
 }
 body {
     font-family: monospace;
-    
+
 }
 .grid {
     display: grid;
     grid-template-columns: 1fr, 1fr, 1fr;
     grid-template-rows: 1fr;
     align-items: center;
-    
+
     justify-content: center;
 }
 
@@ -44,6 +44,8 @@ h2 {
     grid-row: 1;
     width: auto;
     text-align: center;
+    font-size: 16px;
+    padding: 100px;
 }
 
 canvas {
@@ -63,6 +65,8 @@ h3 {
     grid-row: 1;
     width: auto;
     text-align: center;
+    font-size: 16px;
+    padding: 100px;
 }
 </style>
 <script src="main.js">
@@ -76,6 +80,10 @@ h3 {
             You screwed up with the canvas element...
         </canvas>
         <h3 id="NPCcrossies" class="NPCcount">Blockers: y</h3>
+    </div>
+    <div>
+        <h4 id="header">How to Play Tic-Tac-Block:</h4>
+        <p1 id="how to play">The goal of this game is to connect three of your marks in a row on the board. This can be diagonal, vertical, or horizontal. Either you, or the AI will go first. Every turn you have three options. <br><br> 1.Mark an open spot. <br> Marking an open spot is the same as original Tic-Tac-Toe and will consume your turn. <br><br>  2. Block an opponent's marking <br> So long as you have blockers, you may block, or cancel out one of your opponent's previous moves. This will make the spot unusable for everyone. <br><br> 3. Expand the Board <br> You can choose to expand the board on one side by clicking on the edge you would like to expand. Be careful, since this will consume your turn, but will also give you an extra blocker to use against your opponent.</p1>
     </div>
 </body>
 </html>

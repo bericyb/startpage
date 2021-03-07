@@ -11,6 +11,8 @@ var checker = true;
 // AI values
 var NPCcrossies = 1;
 var mousePos;
+var winner;
+var saver = 0;
 
 // Creating empty 2D arrays for the Gameboard and hover Rectangles.
 board = new Array(row);
@@ -46,49 +48,13 @@ function rect(x, y, width, height) {
         ctx.fillStyle = "orange";
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
-    this.hoverWin = function () {
+    this.win = function () {
         ctx.fillStyle = "orange";
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }
 
-function finalCheck(mark, checkedBoard) {
-    for (var i = 0; i < row; i++) {
-        for (var j = 0; j < col; j++) {
-            if (j < col - 2 && checkedBoard[i][j] == mark && checkedBoard[i][j + 1] == mark && checkedBoard[i][j + 2] == mark) {
-                rects[i][j].hoverWin();
-                rects[i][j + 1].hoverWin();
-                rects[i][j + 2].hoverWin();
-                return true;
-            } else if (i < row - 2 && checkedBoard[i][j] == mark && checkedBoard[i + 1][j] == mark && checkedBoard[i + 2][j] == mark) {
-                rects[i][j].hoverWin();
-                rects[i + 1][j].hoverWin();
-                rects[i + 2][j].hoverWin();
-                return true;
-            } else if (i < row - 2 && j < col - 2 && checkedBoard[i][j] == mark && checkedBoard[i + 1][j + 1] == mark && checkedBoard[i + 2][j + 2] == mark) {
-                // if (mark == "O") {
-                //     console.log("WTF");
-                // }
-                rects[i][j].hoverWin();
-                rects[i + 1][j + 1].hoverWin();
-                rects[i + 2][j + 2].hoverWin();
-                return true;
-            } else if (i >= 2 && j <= col - 2 && checkedBoard[i][j] == mark && checkedBoard[i - 1][j + 1] == mark && checkedBoard[i - 2][j + 2] == mark) {
-                rects[i][j].hoverWin();
-                rects[i - 1][j + 1].hoverWin();
-                rects[i - 2][j + 2].hoverWin();
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
 function winCheck(mark, checkedBoard) {
-    // console.log(checkedBoard);
-    // if (checkedBoard[1][0] == "O" && checkedBoard[1][1] == "O" && checkedBoard[1][2] == "O") {
-    //     console.log("Get outta here...");
-    // }
     for (var i = 0; i < row; i++) {
         for (var j = 0; j < col; j++) {
             if (j < col - 2 && checkedBoard[i][j] == mark && checkedBoard[i][j + 1] == mark && checkedBoard[i][j + 2] == mark) {
@@ -96,9 +62,6 @@ function winCheck(mark, checkedBoard) {
             } else if (i < row - 2 && checkedBoard[i][j] == mark && checkedBoard[i + 1][j] == mark && checkedBoard[i + 2][j] == mark) {
                 return true;
             } else if (i < row - 2 && j < col - 2 && checkedBoard[i][j] == mark && checkedBoard[i + 1][j + 1] == mark && checkedBoard[i + 2][j + 2] == mark) {
-                // if (mark == "O") {
-                //     console.log("WTF");
-                // }
                 return true;
             } else if (i >= 2 && j <= col - 2 && checkedBoard[i][j] == mark && checkedBoard[i - 1][j + 1] == mark && checkedBoard[i - 2][j + 2] == mark) {
                 return true;
@@ -108,29 +71,22 @@ function winCheck(mark, checkedBoard) {
     return false;
 }
 
-// function gameOver(mark, checkedBoard) {
-//     // console.log(checkedBoard);
-//     // if (checkedBoard[1][0] == "O" && checkedBoard[1][1] == "O" && checkedBoard[1][2] == "O") {
-//     //     console.log("Get outta here...");
-//     // }
-//     for (var i = 0; i < row; i++) {
-//         for (var j = 0; j < col; j++) {
-//             if (j < col - 2 && checkedBoard[i][j] == mark && checkedBoard[i][j + 1] == mark && checkedBoard[i][j + 2] == mark) {
-//                 return [[i,j],[i,j+1],[i,j+2]];
-//             } else if (i < row - 2 && checkedBoard[i][j] == mark && checkedBoard[i + 1][j] == mark && checkedBoard[i + 2][j] == mark) {
-//                 return [[i,j],[i+1]];
-//             } else if (i < row - 2 && j < col - 2 && checkedBoard[i][j] == mark && checkedBoard[i + 1][j + 1] == mark && checkedBoard[i + 2][j + 2] == mark) {
-//                 // if (mark == "O") {
-//                 //     console.log("WTF");
-//                 // }
-//                 return true;
-//             } else if (i >= 2 && j <= col - 2 && checkedBoard[i][j] == mark && checkedBoard[i - 1][j + 1] == mark && checkedBoard[i - 2][j + 2] == mark) {
-//                 return true;
-//             }
-//         }
-//     }
-//     return false;
-// }
+function gameOver(mark, checkedBoard) {
+    for (var i = 0; i < row; i++) {
+        for (var j = 0; j < col; j++) {
+            if (j < col - 2 && checkedBoard[i][j] == mark && checkedBoard[i][j + 1] == mark && checkedBoard[i][j + 2] == mark) {
+                return [[i, j], [i, j + 1], [i, j + 2]];
+            } else if (i < row - 2 && checkedBoard[i][j] == mark && checkedBoard[i + 1][j] == mark && checkedBoard[i + 2][j] == mark) {
+                return [[i, j], [i + 1, j], [i + 2, j]];
+            } else if (i < row - 2 && j < col - 2 && checkedBoard[i][j] == mark && checkedBoard[i + 1][j + 1] == mark && checkedBoard[i + 2][j + 2] == mark) {
+                return [[i, j], [i + 1, j + 1], [i + 2, j + 2]];
+            } else if (i >= 2 && j <= col - 2 && checkedBoard[i][j] == mark && checkedBoard[i - 1][j + 1] == mark && checkedBoard[i - 2][j + 2] == mark) {
+                return [[i, j], [i - 1, j + 1], [i - 2, j + 2]];
+            }
+        }
+    }
+    return undefined;
+}
 
 
 function render() {
@@ -140,6 +96,7 @@ function render() {
     ctx.clearRect(0, 0, 600, 600);
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, 600, 600);
+
     // MousePos stuff...
     if (mousePos != null) {
         // console.log("WHATUPPIMPS!");
@@ -188,24 +145,6 @@ function render() {
             ctx.closePath();
             ctx.fill();
         }
-    }
-    if (finalCheck("O", board)) {
- 
-        document.getElementById("turn").innerHTML = "Player Wins!";
-        turn = 3;
-        // try {
-        //     throw new Error("STOP!");
-        // }
-        // finally { }
-    }
-    else if (finalCheck("X", board)) {
-        
-        document.getElementById("turn").innerHTML = "AI Wins!";
-        turn = 3;
-        // try {
-        //     throw new Error("STOP!");
-        // }
-        // finally { }
     }
     var gx = Math.ceil(500 / (col));
     var gy = Math.ceil(500 / (row));
@@ -331,21 +270,39 @@ function startGame() {
 function loop() {
     //var ctx = document.getElementById('canvas').getContext("2d");
     render();
+    var playerString = "Player Blockers<br> " + Playercrossies.toString();
+    var NPCString = "AI Blockers<br> " + NPCcrossies.toString();
+    document.getElementById("Playercrossies").innerHTML = playerString;
+    document.getElementById("NPCcrossies").innerHTML = NPCString;
     if (turn == 1) {
         // player's move
-        console.log("Players");
-        document.getElementById("turn").innerHTML = "Player's turn";
         canvas.addEventListener("click", marker, false);
-
+        winner = gameOver("O", board);
+        if (winner != undefined) {
+            // Player wins!
+            document.getElementById("turn").innerHTML = "Player Wins!";
+            for (var i = 0; i < winner.length; i++) {
+                board[winner[i][0]][winner[i][1]] = "#";
+            }
+            turn == 3;
+            // break;
+        }
     }
     else if (turn == 2) {
-        document.getElementById("turn").innerHTML = "NPC's turn";
         NPC();
+        winner = gameOver("X", board);
+        if (winner != undefined) {
+            // NPCWINS!
+            document.getElementById("turn").innerHTML = "AI wins!";
+            for (var i = 0; i < winner.length; i++) {
+                board[winner[i][0]][winner[i][1]] = "#";
+            }
+            turn == 3;
+            // break;
+        }
+    }
+    else if (turn == 3) {
 
-        // gameOver("X", board)
-        // if () {
-
-        // }
     }
     window.requestAnimationFrame(loop);
 }
@@ -414,35 +371,41 @@ function marker() {
     }
 }
 
-function NPC() {
-    console.log("In NPC");
-    var tempBoard = new Array(row);
-    for (var x = 0; x < tempBoard.length; x++) {
-        tempBoard[x] = new Array(col);
-    }
 
-    for (var x = 0; x < tempBoard.length; x++) {
-        for (var y = 0; y < tempBoard[x].length; y++) {
-            tempBoard[x][y] = board[x][y];
-        }
-    }
-    nextMove = bestMove(tempBoard, 0);
+
+
+function NPC() {
+    console.log("# of NPCcrossies", NPCcrossies);
+    console.log("In NPC");
+    nextMove = bestMove(board);
     console.log(nextMove);
+    console.log(saver);
+    if (nextMove.length == 3) {
+        saver = nextMove[3];
+    }
+    else if (saver != 0 && saver != undefined) {
+        nextMove[0] = saver;
+        saver = 0;
+    }
     if (nextMove[0] == -1) {
         addTop(board);
+        NPCcrossies++;
         turn = 1;
     } else if (nextMove[0] == -2) {
         addBottom(board);
+        NPCcrossies++;
         turn = 1;
     } else if (nextMove[0] == -3) {
         addLeft(board);
+        NPCcrossies++;
         turn = 1;
     } else if (nextMove[0] == -4) {
         addRight(board);
+        NPCcrossies++;
         turn = 1;
     } else if (board[nextMove[0]][nextMove[1]] != " ") {
         board[nextMove[0]][nextMove[1]] = "\u25A0";
-        NPCcrossies -= 1;
+        NPCcrossies--;
         turn = 1;
     } else {
         board[nextMove[0]][nextMove[1]] = "X";
@@ -452,19 +415,38 @@ function NPC() {
 
 }
 
-function bestMove(passBoard, depth) {
+function bestMove(passBoard) {
     // Creating moves.
+    console.log("In bestMove!");
+    var counter = 0;
+    var bestScore = -Infinity;
+    var move = [];
+    for (var i = 0; i < passBoard.length; i++) {
+        for (var j = 0; j < passBoard[i].length; j++) {
+            if (passBoard[i][j] != " ") {
+                counter++;
+            }
+        }
+    }
+    if (counter >= row * col - 4) {
+        console.log("Checking expansions!");
+        move = ExTest(passBoard, 0, alpha, beta, false);
+        if (move[2] > bestScore) {
+            bestScore = move[2];
+        }
+    }
+    console.log("Best score from ExTester", bestScore);
+
     var alpha = -Infinity;
     var beta = Infinity;
 
-    var bestScore = -Infinity;
-    var move = [];
+
+
     for (var z = 0; z < passBoard.length; z++) {
         for (var c = 0; c < passBoard[z].length; c++) {
             if (passBoard[z][c] == " ") {
-
                 passBoard[z][c] = "X";
-                let score = tester(passBoard, 0, alpha, beta, false, false);
+                let score = tester(passBoard, 0, alpha, beta, false);
                 passBoard[z][c] = " ";
                 console.log(z, c);
                 console.log(score);
@@ -473,11 +455,10 @@ function bestMove(passBoard, depth) {
                     move = [z, c];
                 }
             }
-            if (passBoard[z][c] == "O" && NPCcrossies > 0) {
-
+            else if (passBoard[z][c] == "O" && NPCcrossies > 0) {
                 passBoard[z][c] = "\u25A0";
                 NPCcrossies -= 1;
-                let score = tester(passBoard, 0, alpha, beta, false, true);
+                let score = tester(passBoard, 0, alpha, beta, false);
                 NPCcrossies += 1;
                 passBoard[z][c] = "O";
                 console.log(z, c);
@@ -489,214 +470,404 @@ function bestMove(passBoard, depth) {
             }
         }
     }
-    // console.log("test");
-    // console.log(passBoard);
-    // console.log("Is it here?");
-    if (bestScore == -Infinity) {
-        console.log("Checking expansions!");
-        addTop(passBoard);
-        NPCcrossies += 1;
-        var score = tester(passBoard, (depth + 1), alpha, beta, false, false) - depth - Playercrossies + NPCcrossies;
-        //console.log(score);
-        if (score > bestScore) {
-            bestScore = score;
-            move = [-1];
-        }
-        NPCcrossies -= 1;
-        // console.log("Check shrinkers");
-        // console.log(passBoard);
-        shrinkTop(passBoard);
-        addBottom(passBoard);
-        NPCcrossies += 1;
-        var score = tester(passBoard, (depth + 1), alpha, beta, false, false) - depth - Playercrossies + NPCcrossies;
-        if (score > bestScore) {
-            bestScore = score;
-            move = [-2];
-        }
-        NPCcrossies -= 1;
-        // console.log("Check shrinkers");
-        // console.log(passBoard);
-        shrinkBottom(passBoard);
-        addLeft(passBoard);
-        NPCcrossies += 1;
-        var score = tester(passBoard, (depth + 1), alpha, beta, false, false) - depth - Playercrossies + NPCcrossies;
-        if (score > bestScore) {
-            bestScore = score;
-            move = [-3];
-        }
-        NPCcrossies -= 1;
-        // console.log("Check shrinkers");
-        // console.log(passBoard);
-        shrinkLeft(passBoard);
-        addRight(passBoard);
-        NPCcrossies += 1;
-        var score = tester(passBoard, (depth + 1), alpha, beta, false, false) - depth - Playercrossies + NPCcrossies;
-        if (score > bestScore) {
-            bestScore = score;
-            move = [-4];
-        }
-        NPCcrossies -= 1;
-        // console.log("Check shrinkers");
-        // console.log(passBoard);
-        shrinkRight(passBoard);
-        //console.log(bestScore);
-    }
+    console.log("here is the counter!");
+    console.log(counter);
+    console.log(row, col);
+
     return move
 }
 
-function tester(boardo, depth, alpha, beta, isMax, blockBool) {
-    // console.log(depth);
-    if (depth > 5) {
-        //console.log("Reached depth!");
-        return 0;
+
+
+
+function ExTest(boardo, depth, alpha, beta, bool1) {
+    console.log("In ExTest!");
+    move = [];
+    var bestScore = -Infinity;
+    addTop(boardo);
+    console.log("New Test!");
+    for (var z = 0; z < boardo.length; z++) {
+        for (var c = 1; c < boardo[z].length; c++) {
+            if (boardo[z][c] == "O" && NPCcrossies > 0) {
+                console.log(z, c);
+                boardo[z][c] = "\u25A0";
+                // console.log("This is the input for it", board[2][1]);
+                var eval = altTester(boardo, depth, alpha, beta, bool1);
+                console.log(eval);
+                boardo[z][c] = "O";
+                if (eval > bestScore) {
+                    bestScore = eval;
+                    move = [z, c - 1, bestScore];
+                }
+            }
+        }
     }
-    else if (winCheck("X", boardo)) {
+    shrinkTop(boardo);
+    addBottom(boardo);
+    console.log("NewTest!");
+    console.log("Old bestScore is...", bestScore);
+    for (var z = 0; z < boardo.length; z++) {
+        for (var c = 0; c < boardo[z].length - 1; c++) {
+            if (boardo[z][c] == "O" && NPCcrossies > 0) {
+                boardo[z][c] = "\u25A0";
+                var eval = altTester(boardo, depth, alpha, beta, bool1);
+                console.log(eval);
+                console.log(z, c);
+                boardo[z][c] = "O";
+                if (eval > bestScore) {
+                    bestScore = eval;
+                    move = [z, c, bestScore];
+                }
+            }
+        }
+    }
+    shrinkBottom(boardo);
+    addLeft(boardo);
+    console.log("NewTest!");
+    console.log("Old bestScore is...", bestScore);
+    for (var z = 1; z < boardo.length; z++) {
+        for (var c = 0; c < boardo[z].length; c++) {
+            if (boardo[z][c] == "O" && NPCcrossies > 0) {
+                boardo[z][c] = "\u25A0";
+                var eval = altTester(boardo, depth, alpha, beta, bool1);
+                console.log(eval);
+                console.log(z, c);
+                boardo[z][c] = "O";
+                if (eval > bestScore) {
+                    bestScore = eval;
+                    move = [z - 1, c, bestScore];
+                }
+            }
+        }
+    }
+    shrinkLeft(boardo);
+    addRight(boardo);
+    console.log("NewTest!");
+    console.log("Old bestScore is...", bestScore);
+    for (var z = 0; z < boardo.length; z++) {
+        for (var c = 0; c < boardo[z].length; c++) {
+            if (boardo[z][c] == "O" && NPCcrossies > 0) {
+                boardo[z][c] = "\u25A0";
+                var eval = altTester(boardo, depth, alpha, beta, bool1);
+                console.log(eval);
+                console.log(z, c);
+                boardo[z][c] = "O";
+                if (eval > bestScore) {
+                    bestScore = eval;
+                    move = [z, c, bestScore];
+                }
+            }
+        }
+    }
+    shrinkRight(boardo);
+    console.log("Final bestScore in ExTest", bestScore);
+
+    // maxEval = -Infinity;
+    addTop(boardo);
+    NPCcrossies += 1;
+    var score = altTester(boardo, (depth + 1), alpha, beta, false) - depth - Playercrossies + NPCcrossies;
+    NPCcrossies -= 1;
+    shrinkTop(boardo);
+    if (score > bestScore) {
+        bestScore = score;
+        move = [-1, 0, bestScore];
+    }
+    console.log("New score? Top", bestScore);
+    addBottom(boardo);
+    NPCcrossies += 1;
+    var score = altTester(boardo, (depth + 1), alpha, beta, false) - depth - Playercrossies + NPCcrossies;
+    NPCcrossies -= 1;
+    shrinkBottom(boardo);
+    if (score > bestScore) {
+        bestScore = score;
+        move = [-2, 0, bestScore];
+    }
+    console.log("New score? Bottom", bestScore);
+    addLeft(boardo);
+    NPCcrossies += 1;
+    var score = altTester(boardo, (depth + 1), alpha, beta, false) - depth - Playercrossies + NPCcrossies;
+    NPCcrossies -= 1;
+    shrinkLeft(boardo);
+    if (score > bestScore) {
+        bestScore = score;
+        move = [-3, 0, bestScore];
+    }
+    console.log("New score? Left", bestScore);
+    addRight(boardo);
+    NPCcrossies += 1;
+    var score = altTester(boardo, (depth + 1), alpha, beta, false) - depth - Playercrossies + NPCcrossies;
+    NPCcrossies -= 1;
+    shrinkRight(boardo);
+    if (score > bestScore) {
+        bestScore = score;
+        move = [-4, 0, bestScore];
+    }
+    console.log("New score? Right", bestScore);
+    return move;
+}
+
+
+
+
+
+
+
+
+function Expander(boardo, depth, alpha, beta, isMax) {
+    if (isMax && NPCcrossies > 0) {
+        var bestScore = -Infinity;
+        addTop(boardo);
+        for (var z = 0; z < boardo.length; z++) {
+            for (var c = 1; c < boardo[z].length; c++) {
+                if (boardo[z][c] == "O") {
+                    boardo[z][c] = "\u25A0";
+                    var eval = altTester(boardo, (depth + 1), alpha, beta, false);
+                    // console.log(eval);
+                    // console.log(z, c);
+                    boardo[z][c] = "O";
+                    if (eval > bestScore) {
+                        bestScore = eval;
+                    }
+                }
+            }
+        }
+        shrinkTop(boardo);
+        addBottom(boardo);
+        for (var z = 0; z < boardo.length; z++) {
+            for (var c = 0; c < boardo[z].length - 1; c++) {
+                if (boardo[z][c] == "O") {
+                    boardo[z][c] = "\u25A0";
+                    var eval = altTester(boardo, (depth + 1), alpha, beta, false);
+                    // console.log(eval);
+                    // console.log(z, c);
+                    boardo[z][c] = "O";
+                    if (eval > bestScore) {
+                        bestScore = eval;
+                    }
+                }
+            }
+        }
+        shrinkBottom(boardo);
+        addLeft(boardo);
+        for (var z = 1; z < boardo.length; z++) {
+            for (var c = 0; c < boardo[z].length; c++) {
+                if (boardo[z][c] == "O") {
+                    boardo[z][c] = "\u25A0";
+                    var eval = altTester(boardo, (depth + 1), alpha, beta, false);
+                    // console.log(eval);
+                    // console.log(z, c);
+                    boardo[z][c] = "O";
+                    if (eval > bestScore) {
+                        bestScore = eval;
+                    }
+                }
+            }
+        }
+        shrinkLeft(boardo);
+        addRight(boardo);
+        for (var z = 0; z < boardo.length - 1; z++) {
+            for (var c = 0; c < boardo[z].length; c++) {
+                if (boardo[z][c] == "O") {
+                    boardo[z][c] = "\u25A0";
+                    var eval = altTester(boardo, (depth + 1), alpha, beta, false);
+                    // console.log(eval);
+                    // console.log(z, c);
+                    boardo[z][c] = "O";
+                    if (eval > bestScore) {
+                        bestScore = eval;
+                    }
+                }
+            }
+        }
+        shrinkRight(boardo);
+        return bestScore;
+    }
+    else if (!isMax && Playercrossies > 0) {
+        // console.log("inExpander");
+        var bestScore = Infinity;
+        addTop(boardo);
+        for (var z = 0; z < boardo.length; z++) {
+            for (var c = 1; c < boardo[z].length; c++) {
+                if (boardo[z][c] == "O") {
+                    boardo[z][c] = "\u25A0";
+                    var eval = altTester(boardo, (depth + 1), alpha, beta, true);
+                    // console.log(eval);
+                    // console.log(z, c);
+                    boardo[z][c] = "O";
+                    if (eval < bestScore) {
+                        bestScore = eval;
+                    }
+                }
+            }
+        }
+        shrinkTop(boardo);
+        addBottom(boardo);
+        for (var z = 0; z < boardo.length; z++) {
+            for (var c = 0; c < boardo[z].length - 1; c++) {
+                if (boardo[z][c] == "O") {
+                    boardo[z][c] = "\u25A0";
+                    var eval = altTester(boardo, (depth + 1), alpha, beta, true);
+                    // console.log(eval);
+                    // console.log(z, c);
+                    boardo[z][c] = "O";
+                    if (eval < bestScore) {
+                        bestScore = eval;
+                    }
+                }
+            }
+        }
+        shrinkBottom(boardo);
+        addLeft(boardo);
+        for (var z = 1; z < boardo.length; z++) {
+            for (var c = 0; c < boardo[z].length; c++) {
+                if (boardo[z][c] == "O") {
+                    boardo[z][c] = "\u25A0";
+                    var eval = altTester(boardo, (depth + 1), alpha, beta, true);
+                    // console.log(eval);
+                    // console.log(z, c);
+                    boardo[z][c] = "O";
+                    if (eval < bestScore) {
+                        bestScore = eval;
+                    }
+                }
+            }
+        }
+        shrinkLeft(boardo);
+        addRight(boardo);
+        for (var z = 0; z < boardo.length - 1; z++) {
+            for (var c = 0; c < boardo[z].length; c++) {
+                if (boardo[z][c] == "O") {
+                    boardo[z][c] = "\u25A0";
+                    var eval = altTester(boardo, depth + 1, alpha, beta, true);
+                    // console.log(eval);
+                    // console.log(z, c);
+                    boardo[z][c] = "O";
+                    if (eval < bestScore) {
+                        bestScore = eval;
+                    }
+                }
+            }
+        }
+        shrinkRight(boardo);
+        return bestScore;
+    }
+    else if (isMax) {
+        maxEval = -Infinity;
+        addTop(boardo);
+        NPCcrossies += 1;
+        var score = tester(boardo, (depth + 1), alpha, beta, false) - depth - Playercrossies + NPCcrossies;
+        NPCcrossies -= 1;
+        shrinkTop(boardo);
+        maxEval = Math.max(maxEval, score);
+        alpha = Math.max(alpha, score);
+        if (beta <= alpha) {
+            return maxEval;
+        }
+        addBottom(boardo);
+        NPCcrossies += 1;
+        var score = tester(boardo, (depth + 1), alpha, beta, false) - depth - Playercrossies + NPCcrossies;
+        NPCcrossies -= 1;
+        shrinkBottom(boardo);
+        maxEval = Math.max(maxEval, score);
+        alpha = Math.max(alpha, score);
+        if (beta <= alpha) {
+            return maxEval;
+        }
+        addLeft(boardo);
+        NPCcrossies += 1;
+        var score = tester(boardo, (depth + 1), alpha, beta, false) - depth - Playercrossies + NPCcrossies;
+        NPCcrossies -= 1;
+        shrinkLeft(boardo);
+        maxEval = Math.max(maxEval, score);
+        alpha = Math.max(alpha, score);
+        if (beta <= alpha) {
+            return maxEval;
+        }
+        addRight(boardo);
+        NPCcrossies += 1;
+        var score = tester(boardo, (depth + 1), alpha, beta, false) - depth - Playercrossies + NPCcrossies;
+        NPCcrossies -= 1;
+        shrinkRight(boardo);
+        maxEval = Math.max(maxEval, score);
+        alpha = Math.max(alpha, score);
+        if (beta <= alpha) {
+            return maxEval;
+        }
+        return maxEval;
+    }
+    else if (!isMax) {
+        minEval = -Infinity;
+        addTop(boardo);
+        Playercrossies += 1;
+        var score = tester(boardo, (depth + 1), alpha, beta, true) + depth - Playercrossies + NPCcrossies;
+        Playercrossies -= 1;
+        shrinkTop(boardo);
+        minEval = Math.min(minEval, score);
+        beta = Math.min(beta, score);
+        if (beta <= alpha) {
+            return minEval;
+        }
+        addBottom(boardo);
+        Playercrossies += 1;
+        var score = tester(boardo, (depth + 1), alpha, beta, true) + depth - Playercrossies + NPCcrossies;
+        Playercrossies -= 1;
+        shrinkBottom(boardo);
+        minEval = Math.min(minEval, score);
+        beta = Math.min(beta, score);
+        if (beta <= alpha) {
+            return minEval;
+        }
+        addLeft(boardo);
+        Playercrossies += 1;
+        var score = tester(boardo, (depth + 1), alpha, beta, true) + depth - Playercrossies + NPCcrossies;
+        Playercrossies -= 1;
+        shrinkLeft(boardo);
+        minEval = Math.min(minEval, score);
+        beta = Math.min(beta, score);
+        if (beta <= alpha) {
+            return minEval;
+        }
+        addRight(boardo);
+        Playercrossies += 1;
+        var score = tester(boardo, (depth + 1), alpha, beta, true) + depth - Playercrossies + NPCcrossies;
+        Playercrossies -= 1;
+        shrinkRight(boardo);
+        minEval = Math.min(minEval, score);
+        beta = Math.min(beta, score);
+        if (beta <= alpha) {
+            return minEval;
+        }
+        return minEval;
+    }
+}
+
+
+function tester(boardo, depth, alpha, beta, isMax) {
+    if (depth > 6) {
+        return 0;
+    } else if (winCheck("X", boardo)) {
         return 1000;
     } else if (winCheck("O", boardo)) {
         return (-1000);
     }
-    // Check for tie
-    else if (blockBool) {
-        //console.log("We in here?");
-        if (isMax) {
-            var maxEval = -Infinity;
-            for (var i = 0; i < boardo.length; i++) {
-                for (var j = 0; j < boardo[i].length; j++) {
-                    if (boardo[i][j] == "O" && NPCcrossies > 0) {
-                        boardo[i][j] = "\u25A0";
-                        NPCcrossies -= 1;
-                        var score = tester(boardo, (depth + 1), alpha, beta, false, true) - depth - Playercrossies + NPCcrossies;
-                        NPCcrossies += 1;
-                        boardo[i][j] = "O";
-                        maxEval = Math.max(maxEval, score);
-                        alpha = Math.max(alpha, score);
-                        if (beta <= alpha) {
-                            break;
-                        }
-                    }
-                }
-            }
-            var isBlocked = false;
-            addTop(boardo);
-            NPCcrossies += 1;
-            var score = tester(boardo, (depth + 1), alpha, beta, false, false) - depth - Playercrossies + NPCcrossies;
-            NPCcrossies -= 1;
-            shrinkTop(boardo);
-            maxEval = Math.max(maxEval, score);
-            alpha = Math.max(alpha, score);
-            if (beta <= alpha) {
-                return maxEval;
-            }
-            addBottom(boardo);
-            NPCcrossies += 1;
-            var score = tester(boardo, (depth + 1), alpha, beta, false, false) - depth - Playercrossies + NPCcrossies;
-            NPCcrossies -= 1;
-            shrinkBottom(boardo);
-            maxEval = Math.max(maxEval, score);
-            alpha = Math.max(alpha, score);
-            if (beta <= alpha) {
-                return maxEval;
-            }
-            addLeft(boardo);
-            NPCcrossies += 1;
-            var score = tester(boardo, (depth + 1), alpha, beta, false, false) - depth - Playercrossies + NPCcrossies;
-            NPCcrossies -= 1;
-            shrinkLeft(boardo);
-            maxEval = Math.max(maxEval, score);
-            alpha = Math.max(alpha, score);
-            if (beta <= alpha) {
-                return maxEval;
-            }
-            addRight(boardo);
-            NPCcrossies += 1;
-            var score = tester(boardo, (depth + 1), alpha, beta, false, false) - depth - Playercrossies + NPCcrossies;
-            NPCcrossies -= 1;
-            shrinkRight(boardo);
-            maxEval = Math.max(maxEval, score);
-            alpha = Math.max(alpha, score);
-            if (beta <= alpha) {
-                return maxEval;
-            }
-            return maxEval;
-        }
-        else if (!isMax) {
-            var minEval = -Infinity;
-            for (var i = 0; i < boardo.length; i++) {
-                for (var j = 0; j < boardo[i].length; j++) {
-                    if (boardo[i][j] == "X" && Playercrossies > 0) {
-                        boardo[i][j] = "\u25A0";
-                        Playercrossies -= 1;
-                        var score = tester(boardo, (depth + 1), alpha, beta, true, true) + depth - Playercrossies + NPCcrossies;
-                        Playercrossies += 1;
-                        boardo[i][j] = "X";
-                        minEval = Math.min(minEval, score);
-                        beta = Math.min(beta, score);
-                        if (beta <= alpha) {
-                            break;
-                        }
-                    }
-                }
-            }
-            var isBlocked = false;
-            addTop(boardo);
-            Playercrossies += 1;
-            var score = tester(boardo, (depth + 1), alpha, beta, true, isBlocked) + depth - Playercrossies + NPCcrossies;
-            Playercrossies -= 1;
-            shrinkTop(boardo);
-            minEval = Math.min(minEval, score);
-            beta = Math.min(beta, score);
-            if (beta <= alpha) {
-                return minEval;
-            }
-            addBottom(boardo);
-            Playercrossies += 1;
-            var score = tester(boardo, (depth + 1), alpha, beta, true, false) + depth - Playercrossies + NPCcrossies;
-            Playercrossies -= 1;
-            shrinkBottom(boardo);
-            minEval = Math.min(minEval, score);
-            beta = Math.min(beta, score);
-            if (beta <= alpha) {
-                return minEval;
-            }
-            addLeft(boardo);
-            Playercrossies += 1;
-            var score = tester(boardo, (depth + 1), alpha, beta, true, false) + depth - Playercrossies + NPCcrossies;
-            Playercrossies -= 1;
-            shrinkLeft(boardo);
-            minEval = Math.min(minEval, score);
-            beta = Math.min(beta, score);
-            if (beta <= alpha) {
-                return minEval;
-            }
-            addRight(boardo);
-            Playercrossies += 1;
-            var score = tester(boardo, (depth + 1), alpha, beta, true, false) + depth - Playercrossies + NPCcrossies;
-            Playercrossies -= 1;
-            shrinkRight(boardo);
-            minEval = Math.min(minEval, score);
-            beta = Math.min(beta, score);
-            if (beta <= alpha) {
-                return minEval;
-            }
-            return minEval;
-        }
-    }
-    //console.log("Do we get here?");
+
+
     var counter = 0;
     for (var i = 0; i < boardo.length; i++) {
         for (var j = 0; j < boardo[i].length; j++) {
-            if (boardo[i][j] == " ") {
-                counter += 1;
+            if (boardo[i][j] != " ") {
+                counter++;
             }
         }
     }
-    if (counter < 1) {
-        return 0;
+    if (counter == row * col) {
+        // Board is full. Consider Expansion
+        maxEval = Expander(boardo, (depth + 1), alpha, beta, isMax);
+        // console.log(maxEval);
+        return maxEval;
     }
-    if (isMax && counter > 0) {
-        //console.log("Thank you");
+    else if (isMax) {
         var maxEval = -Infinity;
-        // list.push(-Infinity);
         for (var i = 0; i < boardo.length; i++) {
             for (var j = 0; j < boardo[i].length; j++) {
                 if (boardo[i][j] == " ") {
@@ -723,55 +894,12 @@ function tester(boardo, depth, alpha, beta, isMax, blockBool) {
                 }
             }
         }
-        return maxEval;
-    } else if (counter < 1 && isMax) {
-        //console.log("Very much");
-        var maxEval = -Infinity;
-        var isBlocked = false;
-        addTop(boardo);
-        NPCcrossies += 1;
-        var score = tester(boardo, (depth + 1), alpha, beta, false, isBlocked) - depth - Playercrossies + NPCcrossies;
-        NPCcrossies -= 1;
-        shrinkTop(boardo);
-        maxEval = Math.max(maxEval, score);
-        alpha = Math.max(alpha, score);
-        if (beta <= alpha) {
-            return maxEval;
-        }
-        addBottom(boardo);
-        NPCcrossies += 1;
-        var score = tester(boardo, (depth + 1), alpha, beta, false, isBlocked) - depth - Playercrossies + NPCcrossies;
-        NPCcrossies -= 1;
-        shrinkBottom(boardo);
-        maxEval = Math.max(maxEval, score);
-        alpha = Math.max(alpha, score);
-        if (beta <= alpha) {
-            return maxEval;
-        }
-        addLeft(boardo);
-        NPCcrossies += 1;
-        var score = tester(boardo, (depth + 1), alpha, beta, false, isBlocked) - depth - Playercrossies + NPCcrossies;
-        NPCcrossies -= 1;
-        shrinkLeft(boardo);
-        maxEval = Math.max(maxEval, score);
-        alpha = Math.max(alpha, score);
-        if (beta <= alpha) {
-            return maxEval;
-        }
-        addRight(boardo);
-        NPCcrossies += 1;
-        var score = tester(boardo, (depth + 1), alpha, beta, false, isBlocked) - depth - Playercrossies + NPCcrossies;
-        NPCcrossies -= 1;
-        shrinkRight(boardo);
-        maxEval = Math.max(maxEval, score);
-        alpha = Math.max(alpha, score);
-        if (beta <= alpha) {
-            return maxEval;
+        if (maxEval == -Infinity) {
+            return depth;
         }
         return maxEval;
-
-    } else if (!isMax && counter > 0) {
-        //console.log("Wait");
+    }
+    else if (!isMax) {
         var minEval = Infinity;
         for (var i = 0; i < boardo.length; i++) {
             for (var j = 0; j < boardo[i].length; j++) {
@@ -799,56 +927,73 @@ function tester(boardo, depth, alpha, beta, isMax, blockBool) {
                 }
             }
         }
-        return minEval;
-    } else if (!isMax && counter < 1) {
-        //console.log("hmmm_");
-        var minEval = -Infinity;
-        var isBlocked = false;
-        addTop(boardo);
-        Playercrossies += 1;
-        var score = tester(boardo, (depth + 1), alpha, beta, true, isBlocked) + depth - Playercrossies + NPCcrossies;
-        Playercrossies -= 1;
-        shrinkTop(boardo);
-        minEval = Math.min(minEval, score);
-        beta = Math.min(beta, score);
-        if (beta <= alpha) {
-            return minEval;
-        }
-        addBottom(boardo);
-        Playercrossies += 1;
-        var score = tester(boardo, (depth + 1), alpha, beta, true, isBlocked) + depth - Playercrossies + NPCcrossies;
-        Playercrossies -= 1;
-        shrinkBottom(boardo);
-        minEval = Math.min(minEval, score);
-        beta = Math.min(beta, score);
-        if (beta <= alpha) {
-            return minEval;
-        }
-        addLeft(boardo);
-        Playercrossies += 1;
-        var score = tester(boardo, (depth + 1), alpha, beta, true, isBlocked) + depth - Playercrossies + NPCcrossies;
-        Playercrossies -= 1;
-        shrinkLeft(boardo);
-        minEval = Math.min(minEval, score);
-        beta = Math.min(beta, score);
-        if (beta <= alpha) {
-            return minEval;
-        }
-        addRight(boardo);
-        Playercrossies += 1;
-        var score = tester(boardo, (depth + 1), alpha, beta, true, isBlocked) + depth - Playercrossies + NPCcrossies;
-        Playercrossies -= 1;
-        shrinkRight(boardo);
-        minEval = Math.min(minEval, score);
-        beta = Math.min(beta, score);
-        if (beta <= alpha) {
-            return minEval;
+
+        if (minEval == Infinity) {
+            return -depth;
         }
         return minEval;
     }
 }
 
+function altTester(boardo, depth, alpha, beta, isMax) {
+    if (depth > 6) {
+        return 0;
+    } else if (winCheck("X", boardo)) {
+        return 1000;
+    } else if (winCheck("O", boardo)) {
+        return -1000;
+    }
 
+    if (isMax) {
+        var maxEval = -Infinity;
+        for (var i = 0; i < boardo.length; i++) {
+            for (var j = 0; j < boardo[i].length; j++) {
+                if (boardo[i][j] == " ") {
+                    boardo[i][j] = "X";
+                    // if (winCheck("X", boardo)) {
+                    //     score = 1000;
+                    // }
+                    // else {
+                    //     score = 0;
+                    // }
+                    var score = altTester(boardo, (depth + 1), alpha, beta, false) - depth - Playercrossies + NPCcrossies;
+                    boardo[i][j] = " ";
+                    maxEval = Math.max(maxEval, score);
+                }
+            }
+        }
+        return maxEval;
+    }
+    else if (!isMax) {
+        var minEval = Infinity;
+        // console.log(boardo, "Whaat?");
+        for (var i = 0; i < boardo.length; i++) {
+            for (var j = 0; j < boardo[i].length; j++) {
+                // console.log(i,j);
+                if (boardo[i][j] == " ") {
+                    boardo[i][j] = "O";
+                    //console.log(boardo[2][1]);
+                    // if (winCheck("O", boardo)) {
+                    //     score = -1000;
+                    //     if (boardo[2][1] == "\u25A0") {
+                    //         console.log("IWANTTODIE");
+                    //         // print();
+                    //     }
+                    // }
+                    // else {
+                    //     console.log("WHATTHEFUCK");
+                    //     score = 0;
+                    // }
+                    var score = altTester(boardo, (depth + 1), alpha, beta, true) + depth - Playercrossies + NPCcrossies;
+                    // console.log(score);
+                    boardo[i][j] = " ";
+                    minEval = Math.min(minEval, score);
+                }
+            }
+        }
+        return minEval;
+    }
+}
 
 // Board Expansion functions
 function addTop(altBoard) {
