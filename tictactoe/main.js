@@ -259,7 +259,7 @@ function startGame() {
     ctx = document.getElementById('area').getContext("2d");
     render();
     canvas.addEventListener("mousemove", function (evt) { mousePos = getMousePos(canvas, evt); });
-    document.getElementById("turn").innerHTML = "Welcome to TIX-TAX-TOX! Instructions are below";
+    document.getElementById("turn").innerHTML = "Welcome to Tic-Tac-Block! Instructions are below";
     // turn = Math.floor(Math.random() * 2);
     turn = 1;
     loop();
@@ -953,7 +953,7 @@ function altTester(boardo, depth, alpha, beta, isMax) {
                     // else {
                     //     score = 0;
                     // }
-                    var score = altTester(boardo, (depth + 1), alpha, beta, false) - depth - Playercrossies + NPCcrossies;
+                    var score = altTester(boardo, (depth + 1), alpha, beta, false) - depth //- Playercrossies + NPCcrossies;
                     boardo[i][j] = " ";
                     maxEval = Math.max(maxEval, score);
                 }
@@ -981,7 +981,7 @@ function altTester(boardo, depth, alpha, beta, isMax) {
                     //     ("WHATTHEFUCK");
                     //     score = 0;
                     // }
-                    var score = altTester(boardo, (depth + 1), alpha, beta, true) + depth - Playercrossies + NPCcrossies;
+                    var score = altTester(boardo, (depth + 1), alpha, beta, true) + depth //- Playercrossies + NPCcrossies;
                     // (score);
                     boardo[i][j] = " ";
                     minEval = Math.min(minEval, score);
