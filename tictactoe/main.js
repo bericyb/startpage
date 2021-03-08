@@ -428,14 +428,14 @@ function bestMove(passBoard) {
             }
         }
     }
-    if (counter >= row * col - 4) {
+    if (counter >= row * col - 3) {
         ("Checking expansions!");
         move = ExTest(passBoard, 0, alpha, beta, false);
         if (move[2] > bestScore) {
             bestScore = move[2];
         }
     }
-    ("Best score from ExTester", bestScore);
+    console.log("Best score from ExTester", bestScore);
 
     var alpha = -Infinity;
     var beta = Infinity;
@@ -448,8 +448,8 @@ function bestMove(passBoard) {
                 passBoard[z][c] = "X";
                 let score = tester(passBoard, 0, alpha, beta, false);
                 passBoard[z][c] = " ";
-                (z, c);
-                (score);
+                console.log(z, c);
+                console.log(score);
                 if (score > bestScore) {
                     bestScore = score;
                     move = [z, c];
@@ -461,8 +461,8 @@ function bestMove(passBoard) {
                 let score = tester(passBoard, 0, alpha, beta, false);
                 NPCcrossies += 1;
                 passBoard[z][c] = "O";
-                (z, c);
-                (score);
+                console.log(z, c);
+                console.log(score);
                 if (score > bestScore) {
                     bestScore = score;
                     move = [z, c];
@@ -470,10 +470,7 @@ function bestMove(passBoard) {
             }
         }
     }
-    ("here is the counter!");
-    (counter);
-    (row, col);
-
+    console.log("Final move: ", move);
     return move
 }
 
