@@ -57,7 +57,7 @@ h2 {
     border-radius: 0px 0px 8px 8px;
     display:grid;
     align-items: baseline;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr
 }
 
